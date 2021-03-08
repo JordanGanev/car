@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#filebrow').change(function() {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    //this next line separates url from data
+                    var iurl = e.target.result.substr(e.target.result.indexOf(",") + 1, e.target.result.length);
+                    var clientId = "0b86a4d083c489b";
+                    $.ajax({
+                        url: "https://api.imgur.com/3/image",
+                        type: "POST",
+                        datatype: "json",
+                        data: {
+                            'image': iurl,
+                            'type': 'base64'
+                        },
+                        success: fdone,//calling function which displays url
+                        error: function(){alert("failed")},
+                        beforeSend: function (xhr) {
+                            xhr.setRequestHeader("Authorization", "Client-ID " + clientId);
+                        }
+                    });
+                };
+                reader.readAsDataURL(this.files[0]);
+            });
+        });
+
+        function fdone(data)
+        {
+            alert(data.data.link);
+            $("#imgUrl").append("<input hidden value='" + data.data.link + "' th:field = \"${dto.url}\">");
+        }
+    </script>
+</head>
+<body>
+<form id="imgUrl" action="">
+    <input id="filebrow" type="file" accept="image/*"/>
+    <button type="submit">
+        Upload Image
+    </button>
+</form>
+</body>
+</html>

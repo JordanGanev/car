@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
+
+<div th:replace="fragments/general.html::head (title = 'User Profile')"></div>
+
+<body>
+<div th:replace="fragments/general.html::navbar"></div>
+<!--style="margin-top: 100px-->
+<!-- All user's requests -->
+<section id="users" style="margin-top: 100px">
+    <div class="container">
+        <div class="accordion" id="accordionExample">
+            <div class="card">
+                <div class="card">
+                    <div class="card-header" id="headingTwo">
+                        <button class="btn btn-link btn-block text-left collapsed" type="button"
+                                data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false"
+                                aria-controls="collapseTwo"><h4>Profile Details</h4>
+                        </button>
+                    </div>
+                    <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                        <div class="card-body">
+
+                            <div class="container mt-5">
+                                <div class="row">
+                                    <div class="col-lg-4 col-md-4 col-sm-12">
+                                        <div class="profile-avatar">
+                                            <img style="width:60%" class="img-responsive"
+                                                 src="https://bootdey.com/img/Content/avatar/avatar6.png"
+                                                 alt="profile picture">
+                                        </div>
+                                    </div>
+                                    <!-- Profile Settings-->
+                                    <div class="col-lg-8 pb-5" th:object="${userInfo}">
+                                        <form class="row" method="post" th:action="@{/users/__${userId}__}">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="account-fn">First Name</label>
+                                                    <input class="form-control" type="text" id="account-fn"
+                                                           th:field="*{firstName}">
+                                                    <label for="account-fn" class="error input-group"
+                                                           th:errors="*{firstName}"></label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="account-ln">Last Name</label>
+                                                    <input class="form-control" type="text" id="account-ln"
+                                                           th:field="*{lastName}">
+                                                    <label for="account-ln" class="error input-group"
+                                                           th:errors="*{lastName}"></label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="account-phone">Phone Number</label>
+                                                    <input class="form-control" type="text" id="account-phone"
+                                                           th:field="*{phone}">
+                                                    <label for="account-phone" class="error input-group"
+                                                           th:errors="*{phone}"></label>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label for="address">Postal Address</label>
+                                                    <input class="form-control" type="text" id="address"
+                                                           th:field="*{address}">
+                                                    <label for="address" class="error input-group"
+                                                           th:errors="*{address}"></label>
+                                                </div>
+                                            </div>
+
+                                            <div class="col-12">
+                                                <hr class="mt-2 mb-3">
+                                                <div class="d-flex flex-wrap justify-content-between align-items-center">
+                                                    <div class="custom-control custom-checkbox d-block">
+                                                        <input class="custom-control-input" type="checkbox"
+                                                               id="subscribe_me" checked="">
+                                                        <label class="custom-control-label" for="subscribe_me">Subscribe
+                                                            me to Newsletter</label>
+                                                    </div>
+                                                    <button class="btn btn-style-1 btn-primary" type="submit">Update
+                                                        Profile
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="card">
+                    <div class="card-header d-flex flex-row">
+                        <h4 class="mx-3">Your Requests</h4>
+                        <button id="policiesBtn" type="button"
+                                class="btn btn-primary mx-3" data-status="show">Hide Policy Requests
+                        </button>
+                        <button id="quotesBtn" type="button"
+                                class="btn btn-primary mx-3" data-status="show">Hide Quote Requests
+                        </button>
+                    </div>
+                    <table class="table table-striped table-bordered">
+                        <thead>
+                        <tr>
+                            <th>Make</th>
+                            <th>Model</th>
+                            <th>Cubic Capacity</th>
+                            <th>Driver Age</th>
+                            <th>Accidents</th>
+                            <th>Request Date</th>
+
+                            <th>Total Amount</th>
+                            <th>Status</th>
+                            <th>Action Button</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr class="policies" th:id="${req.requestId}" th:each=" req : ${policies}">
+                            <td>
+                                <p th:text="${req.vehicleMake}">
+                                </p>
+                            </td>
+                            <td th:text="${req.vehicleModel}"></td>
+                            <td th:text="${req.cubicCapacity}"></td>
+                            <td th:text="${req.driverAge}"></td>
+                            <td th:text="${req.prevAccidents ? 'yes' : 'no'}"></td>
+                            <td>
+                                <p class="text-muted" th:if="${req.requested == true}"
+                                   th:text="${req.requestDate}">
+                                </p>
+                            </td>
+                            <td th:text="${req.policyAmount}">Total Amount
+                            </td>
+                            <td id="statusBadge">
+                                <h4>
+                                    <span th:switch="${req.status}">
+                                        <span th:case="#{req.status.pending}"
+                                              class="badge badge-pill badge-warning"
+                                              th:text="${req.status}">Pending</span>
+                                        <span th:case="#{req.status.approved}"
+                                              class="badge badge-pill badge-success"
+                                              th:text="${req.status}">Approved</span>
+                                        <span th:case="#{req.status.rejected}"
+                                              class="badge badge-pill badge-danger"
+                                              th:text="${req.status}">Rejected</span>
+                                    </span>
+                                </h4>
+                            </td>
+                            <td id="actionButton">
+                                <button th:if="${req.status == 'Pending'}"
+                                        th:attr="data-id=${req.requestId}" id="deleteModalOpen"
+                                        class="btn btn-secondary btn-block" type="submit">
+
+                                    <i class="fas fa-angle-double-right"></i> Cancel
+                                </button>
+                            </td>
+                        </tr>
+                        <!-- Quote Requests -->
+                        <tr class="quotes" th:id="${req.requestId}" th:each=" req : ${quotes}">
+                            <td>
+                                <p th:text="${req.vehicleMake}">
+                                </p>
+                            </td>
+                            <td th:text="${req.vehicleModel}"></td>
+                            <td th:text="${req.cubicCapacity}"></td>
+                            <td th:text="${req.driverAge}"></td>
+                            <td th:text="${req.prevAccidents ? 'yes' : 'no'}"></td>
+                            <td>
+                                <!-- Requested Date th -->
+                            </td>
+                            <td th:text="${req.totalAmount}">Total Amount
+                            </td>
+                            <td id="quoteStatusBadge">
+                                <h4>
+                                    <span class="badge badge-pill badge-secondary btn-block">Not requested</span>
+                                </h4>
+                            </td>
+                            <td id="quoteActionButton">
+                                <form th:action="@{/requests/__${req.requestId}__/new}" method="post">
+                                    <button class="btn btn-outline-primary btn-block" type="submit">
+                                        <i class="fas fa-angle-double-right"></i> Request Policy
+                                    </button>
+                                </form>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModalLabel">About to delete</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                ...
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button id="deleteBtn" type="button" class="btn btn-danger">Delete</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript" src="../static/js/userProfile.js" th:src="@{/js/userProfile.js}"></script>
+</body>
+</html>

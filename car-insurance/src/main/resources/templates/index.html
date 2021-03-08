@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<div th:replace="fragments/general.html::head (title = 'New Request')"></div>
+<body id="bootstrap-overrides">
+<div th:replace="fragments/general.html::navbar"></div>
+
+<div class="container" >
+    <div class="row d-flex justify-content-end">
+        <!-- Quote Request Form -->
+        <div class="flex-column col-md-4 mx-3 p-3">
+            <form th:object="${quoteRequestDto}" action="" th:action="@{/requests/new}" method="post">
+                <!-- Make -->
+                <div class="input-group mb-3 mt-3">
+                    <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon1"
+          >Vehicle Make</span>
+                    </div>
+                    <select name="make"
+                            id="make"
+                            th:field="*{make_id}"
+                            class="form-control"
+                            aria-label="Make"
+                            aria-describedby="basic-addon1"
+                            required>
+                        <option value="-1">Select make</option>
+                        <option th:each="make:${allMakes}"
+                                th:value="${make.id}"
+                                th:text="${make.make}"
+                                value=""></option>
+                    </select>
+                </div>
+                <label for="make" th:errors="*{make_id}">Make ID</label>
+
+                <!-- Model Year -->
+                <div class="input-group mb-3 mt-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon3">Model Year</span>
+                    </div>
+                    <select name="modelYear"
+                            id="modelYear"
+                            class="form-control"
+                            aria-label="modelYear"
+                            aria-describedby="basic-addon3"
+                            required>
+                        <option value="-1">Select model year</option>
+                        <option th:each="year : ${modelYears}"
+                                th:value="${year}"
+                                th:text="${year}"></option>
+                    </select>
+                </div>
+
+                <!-- Model -->
+                <div class="input-group mb-3 mt-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon4">Model</span>
+                    </div>
+                    <select name="model"
+                            id="model"
+                            th:field="*{model_id}"
+                            class="form-control"
+                            aria-label="Model"
+                            aria-describedby="basic-addon4"
+                            required>
+                        <option value="-1">Select Model</option>
+                    </select>
+                </div>
+                <label for="model" th:errors="*{model_id}">Model ID</label>
+
+                <!-- Cubic Capacity -->
+                <div class="input-group mb-3 mt-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon2">Cubic Capacity</span>
+                    </div>
+                    <input
+                            id="cubicCapacity"
+                            th:field="*{cubicCapacity}"
+                            type="text"
+                            class="form-control"
+                            placeholder="Cubic Capacity"
+                            aria-label="ABV"
+                            aria-describedby="basic-addon2"
+                            required
+                    />
+                </div>
+                <label for="cubicCapacity" th:errors="*{cubicCapacity}">Cubic Capacity</label>
+
+                <!-- First Registration Date -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon6">First Registration Date</span>
+                    </div>
+                    <input
+                            id="regDate"
+                            th:field="*{firstRegistrationDate}"
+                            type="date"
+                            class="form-control"
+                            placeholder="First Registration Date"
+                            aria-label="Tags"
+                            aria-describedby="basic-addon6"
+                            required
+                    />
+                </div>
+
+                <!-- Driver Age -->
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text" id="basic-addon7">Driver Age</span>
+                    </div>
+                    <input
+                            id="driverAge"
+                            th:field="*{driverAge}"
+                            type="text"
+                            class="form-control"
+                            placeholder="Driver Age"
+                            aria-label="Tags"
+                            aria-describedby="basic-addon5"
+                            required
+                    />
+                </div>
+                <label for="driverAge" th:errors="*{driverAge}">Driver Age</label>
+
+                <!-- Previous Accidents -->
+                <div class="input-group mb-3 mt-3">
+                    <div class="input-group-prepend">
+          <span class="input-group-text" id="basic-addon8"
+          >Previous Accidents</span>
+                    </div>
+                    <div class="form-control">
+                        <div class="d-flex justify-content-end">
+                            <input th:field="*{previousAccidents}" id="prevAccidents" type="checkbox" checked
+                                   data-toggle="toggle" data-on="Yes"
+                                   data-off="No" data-onstyle="secondary" data-offstyle="outline-light">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="input-group mb-3">
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Request Quote
+                    </button>
+                </div>
+            </form>
+        </div>
+        <!-- Quote Request Response -->
+        <div class="flex-column col-md-4 mx-3 p-3 pt-5">
+            <div th:if="${quoteRequest.id != 0}" th:object="${quoteRequest}">
+                <ul class="list-group">
+                    <li id="quoteHeader" class="list-group-item">Quote Request:</li>
+                    <li class="list-group-item" >Make: <span th:text="*{registeredVehicle.vehicleModel.make.make}" class="quoteValues"></span></li>
+                    <li class="list-group-item" >Model: <span th:text="*{registeredVehicle.vehicleModel.model}" class="quoteValues"></span></li>
+                    <li class="list-group-item" >Model Year: <span th:text="*{registeredVehicle.vehicleModel.modelYear}" class="quoteValues"></span></li>
+                    <li class="list-group-item" >Cubic Capacity: <span th:text="*{registeredVehicle.cubicCapacity}" class="quoteValues"></span></li>
+                    <li class="list-group-item" >Driver Age: <span th:text="*{driverAge}" class="quoteValues"></span></li>
+                    <li class="list-group-item" >Total Amount: <span th:text="*{totalAmount}" class="quoteValues"></span></li>
+                    <div th:if="${quoteRequest.id != 0}" sec:authorize="!isAuthenticated()">
+                        <!-- Button trigger modal -->
+                        <a href="" data-target="#loginModal" data-toggle="modal"
+                           class="list-group-item list-group-item-action disabled">Request Policy</a>
+                    </div>
+                    <div sec:authorize="isAuthenticated()">
+                        <form id="policy_request_form" th:object="${policyRequestDTO}"
+                              th:action="@{/requests/new/policy_request}" method="post">
+                            <div class="list-group-item">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text" id="basic-addon9">Effective Date</span>
+                                    </div>
+                                    <input type="date" id="policyDate" th:field="*{effectiveDate}" required
+                                           class="form-control">
+                                </div>
+                            </div>
+
+                            <div class="list-group-item">
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <span class="input-group-text">Document Image</span>
+                                    </div>
+                                    <div class="custom-file">
+                                        <input type="file" class="custom-file-input" id="imgUpload" accept="image/*">
+                                        <label class="custom-file-label" for="imgUpload"></label>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!--<input id="imgUpload" type="file" accept="image/*" required/>-->
+                            <select hidden name="" id="policyRequestForm" th:field="*{docUrl}">
+                            </select>
+                            <a href="#" onclick="document.getElementById('policy_request_form').submit()"
+                               class="list-group-item list-group-item-action">Request Policy</a>
+                            <!--<input type="submit" value="Request Policy" class="btn btn-primary btn-block">-->
+                        </form>
+                    </div>
+
+                </ul>
+            </div>
+            <!--<div sec:authorize="isAuthenticated()">
+                <form th:object="${policyRequestDTO}" th:action="@{/requests/new/policy_request}" method="post">
+                    <input type="date" id="policyDate" th:field="*{effectiveDate}" required>
+                    <input id="imgUpload" type="file" accept="image/*" required/>
+                    <select hidden name="" id="policyRequestForm" th:field="*{docUrl}">
+                    </select>
+                    <input type="submit" value="Request Policy" class="btn btn-primary btn-block">
+                </form>
+            </div>-->
+            <!--            <div th:if="${quoteRequest.id != 0}" sec:authorize="!isAuthenticated()">
+                            &lt;!&ndash; Button trigger modal &ndash;&gt;
+                            <button class="btn btn-warning" data-target="#loginModal" data-toggle="modal" type="button">
+                                Request Policy
+                            </button>
+                        </div>-->
+        </div>
+    </div>
+</div>
+
+<!-- Login Modal -->
+<div class="modal fade" id="loginModal">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-success text-white">
+                <h5 class="modal-title">Login</h5>
+                <button class="close" data-dismiss="modal">
+                    <span>&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Account Login</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/authenticate}" method="post">
+                            <div class="form-group">
+                                <label> <!--for="email"-->Username:</label>
+                                <input class="form-control" id="username" name="username" type="text">
+                            </div>
+                            <div class="form-group">
+                                <label> <!--for="password"-->Password:</label>
+                                <input class="form-control" id="password" name="password" type="password">
+                            </div>
+                            <div class="form-group">
+                                <p>
+                                    <i style="color: red" th:if="${param.error}">Wrong username or password.</i>
+                                </p>
+                            </div>
+                            <!--<div class="form-group">
+                                <p>
+                                    <i th:if="${activated != null}" th:text="${activated}" class="error"></i>
+                                </p>
+                            </div>-->
+                            <input type="submit" value="Login" class="btn btn-primary btn-block">
+                        </form>
+                        <p>
+                            <i th:if="${param.logout}">You have been logged out.</i>
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function () {
+        var dtToday = new Date();
+
+        var month = dtToday.getMonth() + 1;
+        var day = dtToday.getDate();
+        var year = dtToday.getFullYear();
+        if (month < 10)
+            month = '0' + month.toString();
+        if (day < 10)
+            day = '0' + day.toString();
+
+        var maxDate = year + '-' + month + '-' + day;
+        $('#regDate').attr('max', maxDate);
+        $('#policyDate').attr('min', maxDate);
+    });
+
+</script>
+<script>
+    $(document).ready(function () {
+        $("#modelYear").change(function () {
+            var make_id = $("#make").val();
+            var model_year = parseInt($("#modelYear").val());
+
+            $.get('/api/vehicles/makes/' + make_id + '/models/' + model_year,
+                function (data, status) {
+
+                    var len = data.length;
+
+                    $("#model").empty();
+                    for (var i = 0; i < len; i++) {
+                        var id = data[i]['id'];
+                        var model = data[i]['model'];
+
+                        $("#model").append("<option value='" + id + "'>" + model + "</option>");
+                    }
+                }
+            );
+        })
+    });
+</script>
+<script>
+
+    (function () {
+        $(document).ready(function () {
+            $('#prevAccidents').on('change', function () {
+                var isChecked = $(this).is(':checked');
+                var selectedData;
+                var $switchLabel = $('.switch-label');
+                console.log('isChecked: ' + isChecked);
+
+                if (isChecked) {
+                    selectedData = $switchLabel.attr('data-on');
+                } else {
+                    selectedData = $switchLabel.attr('data-off');
+                }
+
+                console.log('Selected data: ' + selectedData);
+
+            });
+        });
+
+    })();
+
+    $(document).ready(function () {
+        $('#imgUpload').change(function () {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                //this next line separates url from data
+                var iurl = e.target.result.substr(e.target.result.indexOf(",") + 1, e.target.result.length);
+                var clientId = "0b86a4d083c489b";
+                $.ajax({
+                    url: "https://api.imgur.com/3/image",
+                    type: "POST",
+                    datatype: "json",
+                    data: {
+                        'image': iurl,
+                        'type': 'base64'
+                    },
+                    success: fdone,//calling function which displays url
+                    error: function () {
+                        alert("failed")
+                    },
+                    beforeSend: function (xhr) {
+                        xhr.setRequestHeader("Authorization", "Client-ID " + clientId);
+                    }
+                });
+            };
+            reader.readAsDataURL(this.files[0]);
+        });
+    });
+
+    function fdone(data) {
+        alert(data.data.link);
+        var imageURL = data.data.link.toString();
+        $("#policyRequestForm").append("<option value='" + imageURL + "'>" + "ImageURL" + "</option>");
+    }
+</script>
+</body>
+</html>

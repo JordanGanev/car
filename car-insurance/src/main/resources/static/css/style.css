@@ -1,0 +1,225 @@
+html {
+    background: url("https://i.imgur.com/BQkjmIA.jpg") no-repeat center center fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+body {
+    background-color: transparent;
+}
+
+#bootstrap-overrides {
+    margin-top: 100px;
+}
+
+#bootstrap-overrides .list-group-item {
+    position: relative;
+    display: block;
+    padding: .75rem 1.25rem;
+    margin-bottom: -2px;
+    background-color: #00000036;
+    border: 2px solid rgb(255 255 255);
+    color: #ababab;
+}
+
+#bootstrap-overrides .list-group-item-action {
+    width: 100%;
+    color: #bcfffd;
+    text-align: inherit;
+    background-color: #444444;
+    font-weight: 600;
+}
+
+#bootstrap-overrides .list-group-item-action:hover {
+    color: #444;
+    background-color: #5ebdbb;
+    border-color: #4d5c5d;
+    font-weight: 600;
+}
+
+#bootstrap-overrides .input-group-text {
+    background-color: #69fbff75;
+}
+
+#bootstrap-overrides .form-control {
+    background-color: #ffffff54;
+}
+
+#bootstrap-overrides .btn-primary {
+    color: #fff;
+    background-color: #6d6d6d;
+    border-color: #72fffa;
+    box-shadow: inset 0 0 5px #2727278a;
+}
+
+#bootstrap-overrides .btn-primary:hover, .btn-primary:focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary {
+    color: #444;
+    background-color: #5ebdbb;
+    border-color: #4d5c5d;
+    font-weight: 600;
+}
+
+#bootstrap-overrides .custom-file-label {
+    background-color: #9e9ea0;
+}
+
+#bootstrap-overrides #quoteHeader {
+    width: 100%;
+    color: #bcfffd;
+    text-align: inherit;
+    background-color: #444444;
+    font-weight: 600;
+}
+
+#bootstrap-overrides .list-group-item .quoteValues {
+    font-weight: 500;
+    color: white;
+}
+
+#bootstrap-overrides .bg-success {
+    background-color: #555555 !important;
+}
+
+.scrolled {
+    background-color: #4a4a4a !important;
+    transition: background-color 200ms linear;
+}
+
+.error {
+    color: red;
+}
+
+
+.profile-panel .profile-info {
+    padding: 0;
+    margin: 0;
+    list-style: none;
+}
+
+.panel-footer {
+    border-bottom-left-radius: 4px;
+    border-bottom-right-radius: 4px;
+    color: #fff;
+}
+
+.panel-footer {
+    padding: 10px 15px;
+    background-color: #f3f5f6;
+    border-top: 1px solid #ddd;
+}
+
+.panel-default .panel-footer {
+    color: #768399;
+    background-color: #e4e9eb;
+    border: 1px solid #e4e9eb;
+    border-top: none;
+}
+
+.panel.plain .panel-footer {
+    border-top: none;
+}
+
+.panel-footer .white-content {
+    color: #768399;
+    background: #fff;
+    background-color: #fff;
+}
+
+.profile-panel .profile-stats-info a {
+    font-size: 24px;
+    margin-right: 10px;
+    margin-top: 10px;
+    color: #79859b;
+}
+
+.profile-panel .user-name {
+    margin-top: 10px;
+    font-size: 22px;
+    margin-bottom: 10px;
+}
+
+.profile-panel .profile-avatar img {
+    border-radius: 50%;
+    border: 1px solid #e7e7e2;
+}
+
+.profile-panel .profile-avatar {
+    border-radius: 50%;
+    padding: 10px;
+    border: 1px solid #e7e7e2;
+    float: left;
+}
+
+.panel-default .panel-body {
+    border: 1px solid #e4e9eb;
+    border-top: none;
+}
+
+.panel-body {
+    padding: 15px;
+}
+
+.profile-panel .profile-image {
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}
+
+.panel {
+    position: relative;
+    margin-bottom: 25px;
+    border-radius: 4px;
+    border: 0;
+    box-shadow: none;
+}
+
+.panel-default {
+    border-color: #e4e9eb;
+}
+
+.panel.plain .panel-default .panel-heading {
+    border: 1px solid #e4e9eb;
+    border-bottom: none;
+}
+
+.panel.plain .panel-heading {
+    border-bottom: none;
+}
+
+.panel.panel-default .panel-heading {
+    color: #768399;
+}
+
+.panel-heading .white-content {
+    color: #768399;
+    background: #fff;
+    background-color: #fff;
+}
+
+.panel-default .panel-heading {
+    color: #768399;
+    background-color: #e4e9eb;
+    border-color: #e4e9eb;
+}
+
+.white-content {
+    color: #768399;
+    background: #fff;
+    background-color: #fff;
+}
+
+.p-left {
+    padding-left: 0 !important;
+}
+
+.p-right {
+    padding-right: 0 !important;
+}
+
+.panel-heading {
+    padding: 0 15px;
+    min-height: 4px;
+    border-top-left-radius: 4px;
+    border-top-right-radius: 4px;
+}

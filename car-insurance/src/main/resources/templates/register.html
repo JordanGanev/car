@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="fragments/general.html::head (title = 'Register Page')"></head>
+<body>
+
+<section id="login">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col-md-7 mx-auto">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Account Register</h4>
+                    </div>
+                    <div class="card-body">
+                        <form th:action="@{/register}" th:object="${userDto}" method="post">
+
+                            <div class="form-group">
+                                <label>Username:</label>
+                                <input th:field="*{username}" class="form-control" type="text"/>
+                                <label class="error input-group" th:errors="*{username}"></label>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="account-fn">First Name</label>
+                                    <input class="form-control" type="text" id="account-fn" th:field="*{firstName}">
+                                    <label for="account-fn" class="error input-group" th:errors="*{firstName}"></label>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="account-ln">Last Name</label>
+                                    <input class="form-control" type="text" id="account-ln" th:field="*{lastName}">
+                                    <label for="account-ln" class="error input-group" th:errors="*{lastName}"></label>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="account-phone">Phone Number</label>
+                                    <input class="form-control" type="text" id="account-phone" th:field="*{phone}">
+                                    <label for="account-phone" class="error input-group" th:errors="*{phone}"></label>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="address">Postal Address</label>
+                                    <input class="form-control" type="text" id="address" th:field="*{address}">
+                                    <label for="address" class="error input-group" th:errors="*{address}"></label>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="form-group col">
+                                    <label for="account-pass">Password</label>
+                                    <input class="form-control" type="password" id="account-pass"
+                                           th:field="*{password}">
+                                    <label for="account-pass" class="error input-group" th:errors="*{password}"></label>
+                                </div>
+                                <div class="form-group col">
+                                    <label for="account-confirm-pass">Confirm Password</label>
+                                    <input class="form-control" type="password" id="account-confirm-pass"
+                                           th:field="*{matchingPassword}">
+                                    <label for="account-confirm-pass" class="error input-group"
+                                           th:errors="*{matchingPassword}"></label>
+                                    <label class="error input-group" th:errors="${userDto}"></label>
+                                </div>
+                            </div>
+                            <!-- th:errors = userDto - on the model
+                             cuz @PasswordValidation is on the class, not on password fields -->
+                            <div class="form-group">
+                                <p>
+                                    <i th:if="${error != null}" th:text="${error}" class="error"></i>
+                                </p>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <a th:href="@{/login}" type="submit" class="btn btn-outline-primary btn-block">Back
+                                        to login</a>
+                                </div>
+                                <div class="col">
+                                    <button type="submit" class="btn btn-primary btn-block">Register</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+</body>
+
+</html>

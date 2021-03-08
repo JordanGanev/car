@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="fragments/general.html::head (title = 'Error Page')"></head>
+<body>
+<h2>
+    Account Confirmation Error
+</h2>
+<h3 th:text="${error}">
+    Error message
+</h3>
+
+<a th:href="@{/login}" class="btn btn-primary btn-block">Back to login</a>
+</br>
+<a th:href="@{/index}" class="btn btn-primary btn-block">Back to Home Page</a>
+
+</body>
+</html>

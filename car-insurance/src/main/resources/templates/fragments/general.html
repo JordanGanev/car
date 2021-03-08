@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head (title)">
+    <meta charset="UTF-8"/>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+    <meta content="ie=edge" http-equiv="X-UA-Compatible"/>
+    <link
+            crossorigin="anonymous"
+            href="https://use.fontawesome.com/releases/v5.0.13/css/all.css"
+            integrity="sha384-DNOHZ68U8hZfKXOrtjWvjxusGo9WQnrNx2sqG0tfsghAvtVlRW3tvkXWZh58N9jp"
+            rel="stylesheet"
+            th:href="@{https://use.fontawesome.com/releases/v5.0.13/css/all.css}"
+    />
+    <link
+            crossorigin="anonymous"
+            href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css"
+            integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB"
+            rel="stylesheet"
+            th:href="@{https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css}"
+    />
+    <link rel="stylesheet" href="/static/css/style.css" th:href="@{/css/style.css}"/>
+    <title th:text="${title}">Car Insurance</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+    <link href="https://gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <script src="https://gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $(".fixed-top");
+                $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+            });
+        });
+    </script>
+</head>
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-dark brand-style p-2 fixed-top" id="mainNav"
+     th:fragment="navbar">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" th:href="@{/requests/new}">
+            <img id="logo" style="width: 12rem; padding-bottom: 7px;" th:src="@{https://i.imgur.com/sNtnhyG.png}">
+        </a>
+        <button
+                class="navbar-toggler"
+                data-toggle="collapse"
+                data-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav">
+                <!--<li class="nav-item px-2">
+                    <a class="nav-link" th:href="@{/requests/new}" href="/requests/new">Get Offer</a>
+                </li>-->
+                <li class="nav-item dropdown px-2" sec:authorize="hasRole('ROLE_ADMIN')">
+                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        Admin Options
+                    </a>
+                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="dropdown-item" th:href="@{/admin}" href="/admin">Requests</a>
+                        <a class="dropdown-item" th:href="@{/admin/references}" href="#">Edit References</a>
+                        <div class="dropdown-divider"></div>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </li>
+
+<!--                <div class="dropdown">
+                    <li class="nav-item px-2" sec:authorize="hasRole('ROLE_ADMIN')">
+                        <a class="nav-link dropdown-toggle"
+                           role="button" id="dropdownMenuLink"
+                           data-toggle="dropdown"
+                           aria-haspopup="true"
+                           aria-expanded="false">Admin Options</a>
+                    </li>
+
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                        <a class="dropdown-item" th:href="@{/admin}" href="/admin">Requests</a>
+                        <a class="dropdown-item" th:href="@{/admin/references}" href="#">Edit References</a>
+                        <a class="dropdown-item" href="#">Something else here</a>
+                    </div>
+                </div>-->
+
+            </ul>
+
+            <ul class="navbar-nav ml-auto">
+
+                <li class="nav-item px-2" sec:authorize="isAuthenticated()">
+                    <a class="nav-link" th:text="${'Hello '+ session.userLogged.firstName}"
+                       th:href="@{/users/__${session.userLogged.id}__}">Your Profile</a>
+                </li>
+
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="login.html" th:href="@{/login}">
+                        <i class="fas fa-user-times"></i> Login
+                    </a>
+                </li>
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <div>
+                        <form method="post" th:action="@{/logout}">
+                            <a class="nav-link" href="javascript:;" onclick="parentNode.submit();"><i
+                                    class="fas fa-user-times"></i> Logout</a>
+                            <input name="mess" type="hidden" value="Logout"/>
+                        </form>
+                    </div>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link" href="login.html" th:href="@{/register}">
+                        <i class="fas fa-user-circle"></i> Register
+                    </a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- HEADER -->
+<header class="py-2 bg-gradient-light text-warning" id="main-header" th:fragment="header (name)">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h5 th:text="${name}"><i class="fas fa-pencil-alt"></i> Car Insurance</h5>
+            </div>
+        </div>
+    </div>
+</header>
+
+<!-- FOOTER -->
+<footer class="brand-style mt-5 p-3 fixed-bottom" id="main-footer" th:fragment="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col">
+                <p class="lead text-center">
+                    Yordan Ganev
+                    <br>
+                    jordangganev@gmail.com
+                </p>
+            </div>
+            <div class="col">
+                <p class="lead text-center">
+                    Pavel Pavlov
+                    <br>
+                    p.h.pavlov@gmail.com
+                </p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!--<div th:fragment="scripts">
+&lt;!&ndash;    <script
+            crossorigin="anonymous"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+            src="http://code.jquery.com/jquery-3.3.1.min.js"
+    ></script>
+    <script
+            crossorigin="anonymous"
+            integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49"
+            src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"
+    ></script>
+    <script
+            crossorigin="anonymous"
+            integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T"
+            src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"
+    ></script>&ndash;&gt;
+&lt;!&ndash;    <script>
+        // Get the current year for the copyright
+        $("#year").text(new Date().getFullYear());
+    </script>&ndash;&gt;
+&lt;!&ndash;    <script>
+        $(function () {
+            $(document).scroll(function () {
+                var $nav = $(".fixed-top");
+                $nav.toggleClass('scrolled', $(this).scrollTop() > $nav.height());
+            });
+        });
+    </script>&ndash;&gt;
+</div>-->
+</body>
+</html>
